@@ -318,27 +318,27 @@
         const submitBtnDisable=()=>{
             let form = document.getElementsByClassName("signup-form")[0];
             let input = form.querySelectorAll("input");
+            
             for (let i = 0; i < input.length; i++) {
-                if (input[i].value !== "") {
-                    errors[i] = true;
-                    submitBtn.disabled = false;
+                if (input[i].value == "") {
+                    submitBtn.disabled = true;
+                    return;
                 }   
                 else {
-                    errors[i] = false;
+                    if (errors[i]) {
+                        submitBtn.disabled = false;
+                    }
+                    else{
+                        submitBtn.disabled = true   ;
+                        return;
+                    }
                 }
             }
-            submitBtn.disabled = !(errors[0] && errors[1] && errors[2] && errors[3] && errors[4] && errors[5] );
         }
 
-        window.addEventListener("mousemove", () => {
-            submitBtnDisable();
-        })
-        
+
         window.addEventListener("input", () => {
-            submitBtnDisable();
-        })
-        
-        window.addEventListener("change",()=>{
+            submitBtn.disabled = !(errors[0] && errors[1] && errors[2] && errors[3] && errors[4] && errors[5] );
             submitBtnDisable();
         })
 
