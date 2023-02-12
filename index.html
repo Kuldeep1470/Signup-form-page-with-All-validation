@@ -77,7 +77,7 @@
         opacity: .5;
     }
 
-    .signup-form .submin-button {
+    .signup-form .submit-button {
         cursor: pointer;
         color: white;
         background: #645cff;
@@ -91,12 +91,12 @@
         display: inline-block;
     }
 
-    .signup-form .submin-button:hover {
+    .signup-form .submit-button:hover {
         background-color: #3c3799;
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     }
 
-    .signup-form .submin-button:disabled {
+    .signup-form .submit-button:disabled {
         background-color: rgb(173, 173, 173);
     }
 </style>
@@ -108,32 +108,32 @@
             <div class="signup-form-box-heading">
                 <h2>Signup form</h2>
             </div>
-            <form class="signup-form">
+            <form class="signup-form" onsubmit="(e)=>{e.preventDefault()}">
                 <div class="full-name">
                     <label for="fullName">Full Name</label>
                     <input id="full-name" type="text" name="fullName" value="" placeholder="Kuldeep saini">
-                    <span class="warning">you can enter only a-z , A-Z , and maximun 16 charectors</span>
+                    <span class="warning">you can enter only a-z , A-Z , and maximum 16 characters</span>
                 </div>
                 <div class="username">
                     <label for="userName"> Username</label>
                     <input id="username" type="text" name="userName" value="" placeholder="Kuldeep123">
-                    <span class="warning">you can enter only a-z , A-Z , 0-9 and maximun 20 charectors</span>
+                    <span class="warning">you can enter only a-z , A-Z , 0-9 and maximum 20 characters</span>
                 </div>
                 <div class="email">
                     <label for="Email">E-mail</label>
                     <input id="email" type="text" name="Email" value="" placeholder="kuldeepsaini@gmail.com">
-                    <span class="warning">you can enter only a-z , A-Z , 0-9 and .(dot) oprator befor @, and the end add
+                    <span class="warning">you can enter only a-z , A-Z , 0-9 and .(dot) operator before @, and the end add
                         .com<br>invalid E-mail</span>
                 </div>
                 <div class="mobile-num">
                     <label for="mobile-num">Mobile Number</label>
-                    <input id="mobile-num" type="text" name="moile-num" value="" placeholder="000 000 0000">
-                    <span class="warning">Enter 10 digits</span>
+                    <input id="mobile-num" type="text" name="mobile-num" value="" placeholder="000 000 0000">
+                    <span class="warning">Enter 10 digits without spaces </span>
                 </div>
                 <div class="password">
                     <label for="Password">Password</label>
                     <input id="password" type="password" name="Password">
-                    <span class="warning">Enter min 8 charectors</span>
+                    <span class="warning">Enter min 8 characters</span>
                 </div>
                 <div class="match-password">
                     <label for="match_password">Match Password</label>
@@ -142,7 +142,7 @@
                 </div>
 
                 <div>
-                    <button disabled class="submin-button" type="btn">Submit</button>
+                    <button disabled class="submit-button" type="btn">Submit</button>
                 </div>
             </form>
         </div>
@@ -161,7 +161,7 @@
             let notMatched = false;
             for (let i = 0; i < value.length; i++) {
                 let charCode = value[i].charCodeAt(0);
-                if ((charCode > 64 && charCode < 91) || charCode == 32 || (charCode > 96 && charCode < 123) && value.length < 17 && value !== "") {
+                if ((charCode > 64 && charCode < 91) || charCode == 32 || (charCode > 96 && charCode < 123) && value.length < 17 && value.length > 1) {
                     matched = true
                     errors[0] = true
                 }
@@ -187,7 +187,7 @@
             let notMatched = false;
             for (let i = 0; i < value.length; i++) {
                 let charCode = value[i].charCodeAt(0);
-                if (((charCode > 64 && charCode < 91) || charCode == 32 || (charCode > 96 && charCode < 123) || (charCode > 47 && charCode < 59)) && value.length < 21 && value !== "") {
+                if (((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || (charCode > 47 && charCode < 59)) && value.length < 21 && value.length > 4) {
                     matched = true
                     errors[1] = true
                 }
@@ -215,7 +215,7 @@
             let notMatched = false;
             for (let i = 0; i < value.length; i++) {
                 let charCode = value[i].charCodeAt(0);
-                if (((charCode > 64 && charCode < 91) || charCode == 32 || charCode == 46 || charCode == 64 || (charCode > 96 && charCode < 123) || (charCode > 47 && charCode < 59)) && value.length < 30 && value.endsWith(".com") && value.indexOf("@") > 3 && ((value.indexOf(".", value.indexOf("@")))>(value.length-5)) && (value.split("@").length < 3 && value !== "")) {
+                if (((charCode > 64 && charCode < 91)  || charCode == 46 || charCode == 64 || (charCode > 96 && charCode < 123) || (charCode > 47 && charCode < 59)) && value.length < 30 && value.endsWith(".com") && value.indexOf("@") > 3 && ((value.indexOf(".", value.indexOf("@")))>(value.length-5)) && (value.split("@").length < 3 && value.length > 10)) {
                     matched = true
                     errors[2] = true
                 }
@@ -241,7 +241,7 @@
             let notMatched = false;
             for (let i = 0; i < value.length; i++) {
                 let charCode = value[i].charCodeAt(0);
-                if ((charCode > 47 && charCode < 59) && value.length == 10 && value !== "") {
+                if ((charCode > 47 && charCode < 59) && value.length == 10 ) {
                     matched = true
                     errors[3] = true
                 }
@@ -267,7 +267,7 @@
             let notMatched = false;
             for (let i = 0; i < value.length; i++) {
                 let charCode = value[i].charCodeAt(0);
-                if (value.length > 7 && value !== "") {
+                if (value.length > 7 ) {
                     matched = true
                     errors[4] = true
                 }
@@ -291,7 +291,7 @@
             let value = target.value;
             let matched = false;
             let notMatched = false;
-                if (value == password.value && value !== "") {
+                if (value == password.value) {
                     matched = true
                     errors[5] = true;
                 }
@@ -311,9 +311,31 @@
         })
 
 
-        window.addEventListener("input", () => {
-            let submitBtn = document.querySelector(".submin-button");
+
+
+        var submitBtn = document.querySelector(".submit-button");
+
+        const submitBtnDisable=()=>{
+            let form = document.getElementsByClassName("signup-form")[0];
+            let input = form.querySelectorAll("input");
+            for (let i = 0; i < input.length; i++) {
+                if (input[i].value !== "") {
+                    errors[i] = true;
+                    submitBtn.disabled = false;
+                }   
+                else {
+                    errors[i] = false;
+                }
+            }
             submitBtn.disabled = !(errors[0] && errors[1] && errors[2] && errors[3] && errors[4] && errors[5] );
+        }
+
+        window.addEventListener("mousemove", () => {
+            submitBtnDisable();
+        })
+        
+        window.addEventListener("change",()=>{
+            submitBtnDisable();
         })
 
 
