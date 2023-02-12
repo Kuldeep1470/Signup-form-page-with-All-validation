@@ -161,7 +161,7 @@
             let notMatched = false;
             for (let i = 0; i < value.length; i++) {
                 let charCode = value[i].charCodeAt(0);
-                if ((charCode > 64 && charCode < 91) || charCode == 32 || (charCode > 96 && charCode < 123) && value.length < 17) {
+                if ((charCode > 64 && charCode < 91) || charCode == 32 || (charCode > 96 && charCode < 123) && value.length < 17 && value !== "") {
                     matched = true
                     errors[0] = true
                 }
@@ -187,7 +187,7 @@
             let notMatched = false;
             for (let i = 0; i < value.length; i++) {
                 let charCode = value[i].charCodeAt(0);
-                if (((charCode > 64 && charCode < 91) || charCode == 32 || (charCode > 96 && charCode < 123) || (charCode > 47 && charCode < 59)) && value.length < 21) {
+                if (((charCode > 64 && charCode < 91) || charCode == 32 || (charCode > 96 && charCode < 123) || (charCode > 47 && charCode < 59)) && value.length < 21 && value !== "") {
                     matched = true
                     errors[1] = true
                 }
@@ -215,7 +215,7 @@
             let notMatched = false;
             for (let i = 0; i < value.length; i++) {
                 let charCode = value[i].charCodeAt(0);
-                if (((charCode > 64 && charCode < 91) || charCode == 32 || charCode == 46 || charCode == 64 || (charCode > 96 && charCode < 123) || (charCode > 47 && charCode < 59)) && value.length < 30 && value.endsWith(".com") && value.indexOf("@") > 3 && ((value.indexOf(".", value.indexOf("@")))>(value.length-5)) && (value.split("@").length < 3)) {
+                if (((charCode > 64 && charCode < 91) || charCode == 32 || charCode == 46 || charCode == 64 || (charCode > 96 && charCode < 123) || (charCode > 47 && charCode < 59)) && value.length < 30 && value.endsWith(".com") && value.indexOf("@") > 3 && ((value.indexOf(".", value.indexOf("@")))>(value.length-5)) && (value.split("@").length < 3 && value !== "")) {
                     matched = true
                     errors[2] = true
                 }
@@ -241,7 +241,7 @@
             let notMatched = false;
             for (let i = 0; i < value.length; i++) {
                 let charCode = value[i].charCodeAt(0);
-                if ((charCode > 47 && charCode < 59) && value.length == 10) {
+                if ((charCode > 47 && charCode < 59) && value.length == 10 && value !== "") {
                     matched = true
                     errors[3] = true
                 }
@@ -267,7 +267,7 @@
             let notMatched = false;
             for (let i = 0; i < value.length; i++) {
                 let charCode = value[i].charCodeAt(0);
-                if (value.length > 7) {
+                if (value.length > 7 && value !== "") {
                     matched = true
                     errors[4] = true
                 }
@@ -291,7 +291,7 @@
             let value = target.value;
             let matched = false;
             let notMatched = false;
-                if (value == password.value ) {
+                if (value == password.value && value !== "") {
                     matched = true
                     errors[5] = true;
                 }
