@@ -215,7 +215,7 @@
             let notMatched = false;
             for (let i = 0; i < value.length; i++) {
                 let charCode = value[i].charCodeAt(0);
-                if (((charCode > 64 && charCode < 91)  || charCode == 46 || charCode == 64 || (charCode > 96 && charCode < 123) || (charCode > 47 && charCode < 59)) && value.length < 30 && value.endsWith(".com") && value.indexOf("@") > 3 && ((value.indexOf(".", value.indexOf("@")))>(value.length-5)) && (value.split("@").length < 3 && value.length > 10)) {
+                if (((charCode > 64 && charCode < 91)  || charCode == 46 || charCode == 64 || (charCode > 96 && charCode < 123) || (charCode > 47 && charCode < 59)) && value.length < 30 && value.endsWith(".com") && value.indexOf("@") > 3 && ((value.indexOf(".", value.indexOf("@")))>(value.length-5)) && (value.split("@").length < 3 && value.length > 10) && value.indexOf(".") !== 0 && value.indexOf("." , value.indexOf("@")) -value.indexOf("@") >3) {
                     matched = true
                     errors[2] = true
                 }
