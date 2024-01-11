@@ -1,101 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salesforce REST API Example</title>
+    <title>Call Apex REST Methods without Site</title>
 </head>
-
 <body>
 
-    <div>
-        <h1>Salesforce REST API Example</h1>
-        <button onclick="getData()">Get Salesforce Data</button>
-    </div>
+<div>
+    <h1>Call Apex REST Methods without Site</h1>
+    
+    <button onclick="callDoGet()">Call GET Method</button>
+    
+    <button onclick="callDoPatch()">Call PATCH Method</button>
 
-    <div>
-        <h1>Create Salesforce Account</h1>
-        <form id="accountForm">
-            <label for="accountName">Account Name:</label>
-            <input type="text" id="accountName" required>
-            <button type="button" onclick="createAccount()">Create Account</button>
-        </form>
-
-    </div>
     <pre id="output"></pre>
+</div>
 
-    <script>
-        const salesforceInstance = 'https://metadologie43-dev-ed.develop.my.salesforce.com';
-        const accessToken = '00D2w00000RooHC!AQsAQCJ5dpn6GXukKkS5YLCrgC8V2P2ZiL99fNVRpevaYN7_KzO0INVJdGLSHAoojXNiLISeX7tW1qh1PJK.Yso0DefgGOzP';
-        const apiEndpoint = `${salesforceInstance}/services/data/v59.0`;
+<script>
+    const salesforceInstance = 'https://metadologie43-dev-ed.develop.my.salesforce.com';
+    const accessToken = '00D2w00000RooHC!AQsAQCJ5dpn6GXukKkS5YLCrgC8V2P2ZiL99fNVRpevaYN7_KzO0INVJdGLSHAoojXNiLISeX7tW1qh1PJK.Yso0DefgGOzP';
+    const apiEndpoint = `https://${salesforceInstance}.salesforce.com/services/apexrest/myRestService/`;
 
-        function getData() {
-            // Replace these values with your Salesforce instance and access token
+    function callDoGet() {
+        // Make the GET request with bearer token authentication
+        fetch(apiEndpoint, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        })
+        .then(response => response.text())
+        .then(data => {
+            displayOutput(data);
+        })
+        .catch(error => {
+            displayOutput('Error occurred: ' + error.message);
+        });
+    }
 
-            // Salesforce REST API endpoint
+    function callDoPatch() {
+        const input = 'example';
 
-            // Make the API request using the fetch API
-            fetch(apiEndpoint+ '/query?q=SELECT+Id,Name+FROM+Account', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Handle the response data
-                    displayData(data);
-                })
-                .catch(error => {
-                    // Handle errors
-                    displayData('Error occurred: ' + error.message);
-                });
-        }
+        // Make the PATCH request with bearer token authentication
+        fetch(apiEndpoint, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ input: input })
+        })
+        .then(response => response.text())
+        .then(data => {
+            displayOutput(data);
+        })
+        .catch(error => {
+            displayOutput('Error occurred: ' + error.message);
+        });
+    }
 
-        function createAccount() {
-
-            const accountData = {
-                "Name": document.getElementById('accountName').value
-            };
-
-            // Make the API request using the fetch API
-            fetch(apiEndpoint + '/sobjects/Account/', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(accountData)
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Handle the response data
-                    displayData(data);
-                })
-                .catch(error => {
-                    // Handle errors
-                    displayData('Error occurred: ' + error.message);
-                });
-        }
-
-        // Display the data in the output div
-        function displayData(data) {
-            document.getElementById('output').textContent = JSON.stringify(data, null, 2);
-        }
-
-    </script>
+    function displayOutput(data) {
+        document.getElementById('output').textContent = data;
+    }
+</script>
 
 </body>
-
 </html>
