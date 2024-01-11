@@ -1,55 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salesforce REST API Example</title>
 </head>
+
 <body>
 
-<div>
-    <h1>Salesforce REST API Example</h1>
-    <button onclick="getData()">Get Salesforce Data</button>
-    <pre id="output"></pre>
-</div>
+    <div>
+        <h1>Salesforce REST API Example</h1>
+        <button onclick="getData()">Get Salesforce Data</button>
+    </div>
 
-<script>
-    function getData() {
-        // Replace these values with your Salesforce instance and access token
+    <div>
+        <h1>Create Salesforce Account</h1>
+        <form id="accountForm">
+            <label for="accountName">Account Name:</label>
+            <input type="text" id="accountName" required>
+
+            <label for="accountType">Account Type:</label>
+            <input type="text" id="accountType" required>
+
+            <button type="button" onclick="createAccount()">Create Account</button>
+        </form>
+
+    </div>
+    <pre id="output"></pre>
+
+    <script>
         const salesforceInstance = 'https://metadologie43-dev-ed.develop.my.salesforce.com';
         const accessToken = '00D2w00000RooHC!AQsAQCJ5dpn6GXukKkS5YLCrgC8V2P2ZiL99fNVRpevaYN7_KzO0INVJdGLSHAoojXNiLISeX7tW1qh1PJK.Yso0DefgGOzP';
-
-        // Salesforce REST API endpoint
         const apiEndpoint = `${salesforceInstance}/services/data/v59.0/query?q=SELECT+Id,Name+FROM+Account`;
 
-        // Make the API request using the fetch API
-        fetch(apiEndpoint, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Handle the response data
-            displayData(data);
-        })
-        .catch(error => {
-            // Handle errors
-            displayData('Error occurred: ' + error.message);
-        });
-    }
+        function getData() {
+            // Replace these values with your Salesforce instance and access token
 
-    // Display the data in the output div
-    function displayData(data) {
-        document.getElementById('output').textContent = JSON.stringify(data, null, 2);
-    }
-</script>
+            // Salesforce REST API endpoint
+
+            // Make the API request using the fetch API
+            fetch(apiEndpoint, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Handle the response data
+                    displayData(data);
+                })
+                .catch(error => {
+                    // Handle errors
+                    displayData('Error occurred: ' + error.message);
+                });
+        }
+
+        function createAccount() {
+
+            const accountData = {
+                "Name": document.getElementById('accountName').value
+            };
+
+            // Make the API request using the fetch API
+            fetch(apiEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(accountData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Handle the response data
+                    displayData(data);
+                })
+                .catch(error => {
+                    // Handle errors
+                    displayData('Error occurred: ' + error.message);
+                });
+        }
+
+        // Display the data in the output div
+        function displayData(data) {
+            document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+        }
+
+    </script>
 
 </body>
+
 </html>
