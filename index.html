@@ -12,18 +12,33 @@
     <div>
         <h1>Create Contact with Attachment</h1>
 
-        <form id="contactForm">
-            <label for="firstName">First Name:</label>
-            <input type="text" id="firstName" required>
+        <form id="contactForm" style="display: grid;">
+            <div>
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" required>
+            </div>
 
-            <label for="lastName">Last Name:</label>
-            <input type="text" id="lastName" required>
+            <div>
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" required>
+            </div>
 
-            <label for="description">Description:</label>
-            <textarea id="description" rows="4" required></textarea>
+            <div>
 
-            <label for="fileInput">Attachment:</label>
-            <input type="file" id="fileInput" accept=".pdf, .doc, .docx">
+                <label for="description">Description:</label>
+                <textarea id="description" rows="4" required></textarea>
+            </div>
+
+            <div>
+
+                <label for="fileInput">Attachment:</label>
+                <input type="file" id="fileInput" accept=".pdf, .doc, .docx">
+            </div>
+
+            <div>
+                <label for="email">email:</label>
+                <input type="email" id="email" required>
+            </div>
 
             <button type="button" onclick="createContact()">Create Contact</button>
         </form>
@@ -38,6 +53,7 @@
             const firstName = document.getElementById('firstName').value;
             const lastName = document.getElementById('lastName').value;
             const description = document.getElementById('description').value;
+            const email = document.getElementById('email').value;
 
             // Get the file input element
             const fileInput = document.getElementById('fileInput');
@@ -65,6 +81,7 @@
                         lastName: lastName,
                         description: description,
                         fileContent: fileContent,
+                        email: email,
                         fileName: file.name
                     })
                 })
