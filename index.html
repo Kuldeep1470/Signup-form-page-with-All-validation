@@ -1,69 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Call Apex REST Methods without Site</title>
+    <title>Call Apex REST Methods via Public Site v2</title>
 </head>
+
 <body>
 
-<div>
-    <h1>Call Apex REST Methods without Site</h1>
-    
-    <button onclick="callDoGet()">Call GET Method</button>
-    
-    <button onclick="callDoPatch()">Call PATCH Method</button>
+    <div>
+        <h1>Call Apex REST Methods via Public Site</h1>
 
-    <pre id="output"></pre>
-</div>
+        <button onclick="callDoGet()">Call GET Method</button>
 
-<script>
-    const salesforceInstance = 'https://metadologie43-dev-ed.develop.my.salesforce.com';
-    const accessToken = '00D2w00000RooHC!AQsAQCJ5dpn6GXukKkS5YLCrgC8V2P2ZiL99fNVRpevaYN7_KzO0INVJdGLSHAoojXNiLISeX7tW1qh1PJK.Yso0DefgGOzP';
-    const apiEndpoint = `${salesforceInstance}/services/apexrest/myRestService/`;
+        <button onclick="callDoPatch()">Call PATCH Method</button>
 
-    function callDoGet() {
-        // Make the GET request with bearer token authentication
-        fetch(apiEndpoint, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
-            }
-        })
-        .then(response => response.text())
-        .then(data => {
-            displayOutput(data);
-        })
-        .catch(error => {
-            displayOutput('Error occurred: ' + error.message);
-        });
-    }
+        <pre id="output"></pre>
+    </div>
 
-    function callDoPatch() {
-        const input = 'example';
+    <script>
+        const siteUrl = 'https://metadologie43-dev-ed.develop.my.site.com';
+        const apiUrl = `${siteUrl}/services/apexrest/myRestService/`;
 
-        // Make the PATCH request with bearer token authentication
-        fetch(apiEndpoint, {
-            method: 'PATCH',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ input: input })
-        })
-        .then(response => response.text())
-        .then(data => {
-            displayOutput(data);
-        })
-        .catch(error => {
-            displayOutput('Error occurred: ' + error.message);
-        });
-    }
+        function callDoGet() {
+            fetch(apiUrl, {
+                method: 'GET'
+            })
+                .then(response => response.text())
+                .then(data => {
+                    displayOutput(data);
+                })
+                .catch(error => {
+                    displayOutput('Error occurred: ' + error.message);
+                });
+        }
 
-    function displayOutput(data) {
-        document.getElementById('output').textContent = data;
-    }
-</script>
+        function callDoPatch() {
+            const input = 'example';
+
+            fetch(apiUrl, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ input: input })
+            })
+                .then(response => response.text())
+                .then(data => {
+                    displayOutput(data);
+                })
+                .catch(error => {
+                    displayOutput('Error occurred: ' + error.message);
+                });
+        }
+
+        function displayOutput(data) {
+            document.getElementById('output').textContent = data;
+        }
+    </script>
 
 </body>
+
 </html>
