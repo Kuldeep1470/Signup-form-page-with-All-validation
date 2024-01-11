@@ -1,352 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>signup Form</title>
+    <title>Salesforce REST API Example</title>
 </head>
-
-
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-    }
-
-    .signup-form-box-heading {
-        margin: 1% 0% 4% !important;
-        margin-bottom: 1.38rem;
-        font-family: 'Roboto', sans-serif;
-        font-weight: 400;
-        line-height: 1.3;
-        text-transform: capitalize;
-        letter-spacing: 1px;
-        text-align: center;
-    }
-
-    .signup-form-box {
-        border: 1px solid #ddd;
-        max-width: 300px;
-        background: white;
-        border-radius: .3rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        padding: 1rem 2.5rem;
-        margin: 1.5rem auto;
-    }
-
-    .signup-form>div {
-        margin: 6% 0%;
-        display: grid;
-    }
-
-    .signup-form .warning,
-    .signup-form label {
-        font-size: 14px;
-        display: block;
-        font-size: .7rem;
-        margin-bottom: 0.5rem;
-        text-transform: capitalize;
-        letter-spacing: 1px;
-        font-family: 'Nunito', sans-serif;
-    }
-
-    .signup-form .warning {
-        color: #dc3545;
-        font-size: 10px;
-        display: none;
-        text-transform: none;
-    }
-
-    .signup-form input {
-        outline: none;
-        margin: 2% 0%;
-        border: none;
-        border-bottom: 1px solid #ddd;
-        font-size: 18px;
-        padding: 1% 0%;
-        color: #444444;
-    }
-
-    .signup-form input:hover {
-        border-bottom: 1px solid #9896b3;
-    }
-
-    .signup-form input::placeholder {
-        opacity: .5;
-    }
-
-    .signup-form .submit-button {
-        cursor: pointer;
-        color: white;
-        background: #645cff;
-        border: transparent;
-        border-radius: .3rem;
-        letter-spacing: 1px;
-        padding: 0.375rem 0.75rem;
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        transition: 0.3s ease-in-out all;
-        text-transform: capitalize;
-        display: inline-block;
-    }
-
-    .signup-form .submit-button:hover {
-        background-color: #3c3799;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    }
-
-    .signup-form .submit-button:disabled {
-        background-color: rgb(173, 173, 173);
-    }
-</style>
-
 <body>
-    <header></header>
-    <main>
-        <div class="signup-form-box">
-            <div class="signup-form-box-heading">
-                <h2>Signup form</h2>
-            </div>
-            <form class="signup-form" onsubmit="(e)=>{e.preventDefault()}">
-                <div class="full-name">
-                    <label for="fullName">Full Name</label>
-                    <input id="full-name" type="text" name="fullName" value="" placeholder="Kuldeep saini">
-                    <span class="warning">you can enter only a-z , A-Z , and maximum 16 characters</span>
-                </div>
-                <div class="username">
-                    <label for="userName"> Username</label>
-                    <input id="username" type="text" name="userName" value="" placeholder="Kuldeep123">
-                    <span class="warning">you can enter only a-z , A-Z , 0-9 and maximum 20 characters</span>
-                </div>
-                <div class="email">
-                    <label for="Email">E-mail</label>
-                    <input id="email" type="text" name="Email" value="" placeholder="kuldeepsaini@gmail.com">
-                    <span class="warning">you can enter only a-z , A-Z , 0-9 and .(dot) operator before @, and the end add
-                        .com<br>invalid E-mail</span>
-                </div>
-                <div class="mobile-num">
-                    <label for="mobile-num">Mobile Number</label>
-                    <input id="mobile-num" type="text" name="mobile-num" value="" placeholder="000 000 0000">
-                    <span class="warning">Enter 10 digits without spaces </span>
-                </div>
-                <div class="password">
-                    <label for="Password">Password</label>
-                    <input id="password" type="password" name="Password">
-                    <span class="warning">Enter min 8 characters</span>
-                </div>
-                <div class="match-password">
-                    <label for="match_password">Match Password</label>
-                    <input id="match-password" type="password" name="match_password">
-                    <span class="warning">Password not matched</span>
-                </div>
 
-                <div>
-                    <button disabled class="submit-button" type="btn">Submit</button>
-                </div>
-            </form>
-        </div>
-    </main>
+<div>
+    <h1>Salesforce REST API Example</h1>
+    <button onclick="getData()">Get Salesforce Data</button>
+    <pre id="output"></pre>
+</div>
 
-    <script>
+<script>
+    function getData() {
+        // Replace these values with your Salesforce instance and access token
+        const salesforceInstance = 'https://metadologie43-dev-ed.develop.my.salesforce.com';
+        const accessToken = '00D2w00000RooHC!AQsAQCJ5dpn6GXukKkS5YLCrgC8V2P2ZiL99fNVRpevaYN7_KzO0INVJdGLSHAoojXNiLISeX7tW1qh1PJK.Yso0DefgGOzP';
 
+        // Salesforce REST API endpoint
+        const apiEndpoint = `${salesforceInstance}/services/data/v59.0/query?q=SELECT+Id,Name+FROM+Account`;
 
-        var errors = [false, false, false, false, false, false];
-
-        var fullName = document.getElementById("full-name");
-        fullName.addEventListener("input", (e) => {
-            let target = e.target;
-            let value = target.value;
-            let matched = false;
-            let notMatched = false;
-            for (let i = 0; i < value.length; i++) {
-                let charCode = value[i].charCodeAt(0);
-                if ((charCode > 64 && charCode < 91) || charCode == 32 || (charCode > 96 && charCode < 123) && value.length < 17 && value.length > 1) {
-                    matched = true
-                    errors[0] = true
-                }
-                else {
-                    notMatched = true
-                    errors[0] = false
-                }
-            }
-            if (notMatched) {
-                target.parentNode.querySelectorAll("span")[0].style.display = "block"
-                return;
-            }
-            if (matched) {
-                target.parentNode.querySelectorAll("span")[0].style.display = "none"
+        // Make the API request using the fetch API
+        fetch(apiEndpoint, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
             }
         })
-
-        var userName = document.getElementById("username");
-        userName.addEventListener("input", (e) => {
-            let target = e.target;
-            let value = target.value;
-            let matched = false;
-            let notMatched = false;
-            for (let i = 0; i < value.length; i++) {
-                let charCode = value[i].charCodeAt(0);
-                if (((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || (charCode > 47 && charCode < 59)) && value.length < 21 && value.length > 4) {
-                    matched = true
-                    errors[1] = true
-                }
-                else {
-                    notMatched = true
-                    errors[1] = false
-                }
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            if (notMatched) {
-                target.parentNode.querySelectorAll("span")[0].style.display = "block"
-                return;
-            }
-            if (matched) {
-                target.parentNode.querySelectorAll("span")[0].style.display = "none"
-            }
+            return response.json();
         })
-
-
-
-        var email = document.getElementById("email");
-        email.addEventListener("input", (e) => {
-            let target = e.target;
-            let value = target.value;
-            let matched = false;
-            let notMatched = false;
-            for (let i = 0; i < value.length; i++) {
-                let charCode = value[i].charCodeAt(0);
-                if (((charCode > 64 && charCode < 91)  || charCode == 46 || charCode == 64 || (charCode > 96 && charCode < 123) || (charCode > 47 && charCode < 59)) && value.length < 30 && value.endsWith(".com") && value.indexOf("@") > 3 && ((value.indexOf(".", value.indexOf("@")))>(value.length-5)) && (value.split("@").length < 3 && value.length > 10) && value.indexOf(".") !== 0 && value.indexOf("." , value.indexOf("@")) -value.indexOf("@") >3) {
-                    matched = true
-                    errors[2] = true
-                }
-                else {
-                    notMatched = true
-                    errors[2] = false
-                }
-            }
-            if (notMatched) {
-                target.parentNode.querySelectorAll("span")[0].style.display = "block"
-                return;
-            }
-            if (matched) {
-                target.parentNode.querySelectorAll("span")[0].style.display = "none"
-            }
+        .then(data => {
+            // Handle the response data
+            displayData(data);
         })
+        .catch(error => {
+            // Handle errors
+            displayData('Error occurred: ' + error.message);
+        });
+    }
 
-        var mobileNum = document.getElementById("mobile-num");
-        mobileNum.addEventListener("input", (e) => {
-            let target = e.target;
-            let value = target.value;
-            let matched = false;
-            let notMatched = false;
-            for (let i = 0; i < value.length; i++) {
-                let charCode = value[i].charCodeAt(0);
-                if ((charCode > 47 && charCode < 59) && value.length == 10 ) {
-                    matched = true
-                    errors[3] = true
-                }
-                else {
-                    notMatched = true
-                    errors[3] = false
-                }
-            }
-            if (notMatched) {
-                target.parentNode.querySelectorAll("span")[0].style.display = "block"
-                return;
-            }
-            if (matched) {
-                target.parentNode.querySelectorAll("span")[0].style.display = "none"
-            }
-        })
+    // Display the data in the output div
+    function displayData(data) {
+        document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+    }
+</script>
 
-        var password = document.getElementById("password");
-        password.addEventListener("input", (e) => {
-            let target = e.target;
-            let value = target.value;
-            let matched = false;
-            let notMatched = false;
-            for (let i = 0; i < value.length; i++) {
-                let charCode = value[i].charCodeAt(0);
-                if (value.length > 7 ) {
-                    matched = true
-                    errors[4] = true
-                }
-                else {
-                    notMatched = true
-                    errors[4] = false
-                }
-            }
-            if (notMatched) {
-                target.parentNode.querySelectorAll("span")[0].style.display = "block"
-                return;
-            }
-            if (matched) {
-                target.parentNode.querySelectorAll("span")[0].style.display = "none"
-            }
-        })
-
-        var matchPassword = document.getElementById("match-password");
-        matchPassword.addEventListener("input", (e) => {
-            let target = e.target;
-            let value = target.value;
-            let matched = false;
-            let notMatched = false;
-                if (value == password.value) {
-                    matched = true
-                    errors[5] = true;
-                }
-                else {
-                    notMatched = true
-                    errors[5] = false;
-                }
-            if (notMatched) {
-                target.parentNode.querySelectorAll("span")[0].style.display = "block"
-               
-                return;
-            }
-            if (matched) {
-                target.parentNode.querySelectorAll("span")[0].style.display = "none"
-              
-            }
-        })
-
-
-
-
-        var submitBtn = document.querySelector(".submit-button");
-
-        const submitBtnDisable=()=>{
-            let form = document.getElementsByClassName("signup-form")[0];
-            let input = form.querySelectorAll("input");
-            
-            for (let i = 0; i < input.length; i++) {
-                if (input[i].value == "") {
-                    submitBtn.disabled = true;
-                    return;
-                }   
-                else {
-                    if (errors[i]) {
-                        submitBtn.disabled = false;
-                    }
-                    else{
-                        submitBtn.disabled = true   ;
-                        return;
-                    }
-                }
-            }
-        }
-
-
-        window.addEventListener("input", () => {
-            submitBtn.disabled = !(errors[0] && errors[1] && errors[2] && errors[3] && errors[4] && errors[5] );
-            submitBtnDisable();
-        })
-
-
-    </script>
-    <footer>
-
-    </footer>
 </body>
-
 </html>
