@@ -32,7 +32,7 @@
     <script>
         const salesforceInstance = 'https://metadologie43-dev-ed.develop.my.salesforce.com';
         const accessToken = '00D2w00000RooHC!AQsAQCJ5dpn6GXukKkS5YLCrgC8V2P2ZiL99fNVRpevaYN7_KzO0INVJdGLSHAoojXNiLISeX7tW1qh1PJK.Yso0DefgGOzP';
-        const apiEndpoint = `${salesforceInstance}/services/data/v59.0/query?q=SELECT+Id,Name+FROM+Account`;
+        const apiEndpoint = `${salesforceInstance}/services/data/v59.0`;
 
         function getData() {
             // Replace these values with your Salesforce instance and access token
@@ -40,7 +40,7 @@
             // Salesforce REST API endpoint
 
             // Make the API request using the fetch API
-            fetch(apiEndpoint, {
+            fetch(apiEndpoint+ '/query?q=SELECT+Id,Name+FROM+Account', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
@@ -69,7 +69,7 @@
             };
 
             // Make the API request using the fetch API
-            fetch(apiEndpoint, {
+            fetch(apiEndpoint + '/sobjects/Account/', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
