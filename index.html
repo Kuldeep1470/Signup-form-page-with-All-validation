@@ -97,7 +97,9 @@
                         expectedSalary: expectedSalary,
                         currentCompany: currentCompany,
                         noticePeriod: noticePeriod,
-                        positionId: positionId
+                        positionId: fileContent,
+                        fileContent: file,
+                        fileName: name
                     })
                 })
                     .then(response => response.text())
