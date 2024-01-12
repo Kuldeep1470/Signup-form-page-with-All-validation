@@ -8,40 +8,41 @@
 </head>
 
 <body>
-
     <div>
-        <h1>Create Contact with Attachment</h1>
+        <h1>Submit Candidate Information</h1>
 
-        <form id="contactForm" style="display: grid;">
-            <div>
-                <label for="firstName">First Name:</label>
-                <input type="text" id="firstName" required>
-            </div>
-
-            <div>
-                <label for="lastName">Last Name:</label>
-                <input type="text" id="lastName" required>
-            </div>
-
-            <div>
-
-                <label for="description">Description:</label>
-                <textarea id="description" rows="4" required></textarea>
-            </div>
-
-            <div>
-
-                <label for="fileInput">Attachment:</label>
-                <input type="file" id="fileInput" accept=".pdf, .doc, .docx">
-            </div>
-
-            <div>
-                <label for="email">email:</label>
-                <input type="email" id="email" required>
-            </div>
-
-            <button type="button" onclick="createContact()">Create Contact</button>
+        <form id="candidateForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br>
+    
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br>
+    
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" required><br>
+    
+            <label for="currentLocation">Current Location:</label>
+            <input type="text" id="currentLocation" name="currentLocation" required><br>
+    
+            <label for="currentSalary">Current Salary:</label>
+            <input type="text" id="currentSalary" name="currentSalary" required><br>
+    
+            <label for="expectedSalary">Expected Salary:</label>
+            <input type="text" id="expectedSalary" name="expectedSalary" required><br>
+    
+            <label for="currentCompany">Current Company:</label>
+            <input type="text" id="currentCompany" name="currentCompany" required><br>
+    
+            <label for="noticePeriod">Notice Period:</label>
+            <input type="text" id="noticePeriod" name="noticePeriod" required><br>
+    
+            <label for="positionId">Position ID:</label>
+            <input type="text" id="positionId" name="positionId" required><br>
+    
+            <button type="button" onclick="createCandidate()">Submit</button>
         </form>
+
+        <button onclick="getPosition()">get position data</button>
 
         <pre id="output"></pre>
     </div>
@@ -49,11 +50,19 @@
     <script>
         const siteUrl = 'https://metadologie43-dev-ed.develop.my.site.com';
         const apiUrl = `${siteUrl}/services/apexrest/myRestService/`;
-        function createContact() {
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const description = document.getElementById('description').value;
+        function createCandidate() {
+            const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const currentLocation = document.getElementById('currentLocation').value;
+            const currentSalary = document.getElementById('currentSalary').value;
+            const expectedSalary = document.getElementById('expectedSalary').value;
+            const currentCompany = document.getElementById('currentCompany').value;
+            const noticePeriod = document.getElementById('noticePeriod').value;
+            const positionId = document.getElementById('positionId').value;
+
+            // Now you can use these variables in your AJAX request or any other logic
+            console.log(name, email, phone, currentLocation, currentSalary, expectedSalary, currentCompany, noticePeriod, positionId);
 
             // Get the file input element
             const fileInput = document.getElementById('fileInput');
@@ -77,17 +86,20 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        firstName: firstName,
-                        lastName: lastName,
-                        description: description,
-                        fileContent: fileContent,
+                        name: name,
                         email: email,
-                        fileName: file.name
+                        phone: phone,
+                        currentLocation: currentLocation,
+                        currentSalary: currentSalary,
+                        expectedSalary: expectedSalary,
+                        currentCompany: currentCompany,
+                        noticePeriod: noticePeriod,
+                        positionId: positionId
                     })
                 })
                     .then(response => response.text())
                     .then(data => {
-                        displayOutput(data);
+                        console.log('data is saved');
                     })
                     .catch(error => {
                         displayOutput('Error occurred: ' + error.message);
@@ -95,6 +107,22 @@
             };
 
             reader.readAsDataURL(file);
+        }
+
+        function getPosition(){
+            fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Data retrieved successfully:', data);
+            })
+            .catch(error => {
+                console.error('Error retrieving data:', error);
+            });
         }
 
         function displayOutput(data) {
