@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Contact with Attachment v3 </title>
+    <title>Submit Candidate Information</title>
 </head>
 
 <body>
@@ -14,45 +14,46 @@
         <form id="candidateForm">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required><br>
-    
+
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required><br>
-    
+
             <label for="phone">Phone:</label>
             <input type="tel" id="phone" name="phone" required><br>
-    
+
             <label for="currentLocation">Current Location:</label>
             <input type="text" id="currentLocation" name="currentLocation" required><br>
-    
+
             <label for="currentSalary">Current Salary:</label>
             <input type="text" id="currentSalary" name="currentSalary" required><br>
-    
+
             <label for="expectedSalary">Expected Salary:</label>
             <input type="text" id="expectedSalary" name="expectedSalary" required><br>
-    
+
             <label for="currentCompany">Current Company:</label>
             <input type="text" id="currentCompany" name="currentCompany" required><br>
-    
+
             <label for="noticePeriod">Notice Period:</label>
             <input type="text" id="noticePeriod" name="noticePeriod" required><br>
-    
+
             <label for="positionId">Position ID:</label>
             <input type="text" id="positionId" name="positionId" required><br>
 
-            <label for="file"> file</label>
+            <label for="file">Resume (PDF only):</label>
             <input type="file" id="fileInput" required><br>
-    
+
             <button type="button" onclick="createCandidate()">Submit</button>
         </form>
 
-        <button onclick="getPosition()">get position data</button>
+        <button onclick="getPosition()">Get Position Data</button>
 
         <pre id="output"></pre>
     </div>
 
     <script>
-        const siteUrl = 'https://dev1-a2-dev-ed.develop.my.site.com';
+        const siteUrl = 'https://metadologie43-dev-ed.develop.my.site.com';
         const apiUrl = `${siteUrl}/services/apexrest/JobOpening/`;
+
         function createCandidate() {
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
@@ -63,9 +64,6 @@
             const currentCompany = document.getElementById('currentCompany').value;
             const noticePeriod = document.getElementById('noticePeriod').value;
             const positionId = document.getElementById('positionId').value;
-
-            // Now you can use these variables in your AJAX request or any other logic
-            console.log(name, email, phone, currentLocation, currentSalary, expectedSalary, currentCompany, noticePeriod, positionId);
 
             // Get the file input element
             const fileInput = document.getElementById('fileInput');
@@ -83,10 +81,10 @@
                 const fileContent = reader.result.split(',')[1];
 
                 // Make the PATCH request with contact information and file attachment
-                fetch(apiUrl, {
+                fetch(apiUrl + 'saveCandidateInformation', {
                     method: 'PATCH',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
                         name: name,
@@ -97,14 +95,14 @@
                         expectedSalary: expectedSalary,
                         currentCompany: currentCompany,
                         noticePeriod: noticePeriod,
-                        positionId: fileContent,
-                        fileContent: file,
-                        fileName: name
+                        positionId: positionId,
+                        fileContent: fileContent,
+                        fileName: file.name
                     })
                 })
                     .then(response => response.text())
                     .then(data => {
-                        console.log('data is saved');
+                        displayOutput('Data saved successfully.');
                     })
                     .catch(error => {
                         displayOutput('Error occurred: ' + error.message);
@@ -114,20 +112,16 @@
             reader.readAsDataURL(file);
         }
 
-        function getPosition(){
-            fetch(apiUrl, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Data retrieved successfully:', data);
-            })
-            .catch(error => {
-                console.error('Error retrieving data:', error);
-            });
+        function getPosition() {
+            // Make a GET request to getPositionRecords endpoint
+            fetch(apiUrl + 'getPositionRecords')
+                .then(response => response.json())
+                .then(data => {
+                    displayOutput('Position Data: ' + JSON.stringify(data));
+                })
+                .catch(error => {
+                    displayOutput('Error occurred: ' + error.message);
+                });
         }
 
         function displayOutput(data) {
