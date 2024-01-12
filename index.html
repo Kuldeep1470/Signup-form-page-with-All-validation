@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Contact with Attachment</title>
+    <title>Create Contact with Attachment v2</title>
 </head>
 
 <body>
@@ -38,6 +38,9 @@
     
             <label for="positionId">Position ID:</label>
             <input type="text" id="positionId" name="positionId" required><br>
+
+            <label for="file"> file</label>
+            <input type="file" id="fileInput" required><br>
     
             <button type="button" onclick="createCandidate()">Submit</button>
         </form>
@@ -111,7 +114,7 @@
 
         function getPosition(){
             fetch(apiUrl, {
-                method: 'Patch',
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
