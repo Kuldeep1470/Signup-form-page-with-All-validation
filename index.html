@@ -9,7 +9,7 @@
 
 <body>
     <div>
-        <h1>Submit Candidate Information</h1>
+        <h1>Submit Candidate Information v2</h1>
 
         <form id="candidateForm">
             <label for="name">Name:</label>
@@ -111,7 +111,7 @@
 
         function getPosition(){
             fetch(apiUrl, {
-                method: 'GET',
+                method: 'Patch',
                 headers: {
                     'Content-Type': 'application/json',
                 },
