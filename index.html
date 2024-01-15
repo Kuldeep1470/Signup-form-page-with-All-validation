@@ -202,20 +202,7 @@
             reader.readAsDataURL(file);
         }
 
-        async function getPosition() {
-            // Make a GET request to getPositionRecords endpoint
-            await fetch(apiUrl + 'getPositionRecords')
-                .then(response => response.json())
-                .then(data => {
-                    return data;
-                })
-                .catch(error => {
-                    alert(JSON.stringify(error));
-                });
-        }
-       
-        async function showPositionData() {
-            let positionJsonData = await getPosition();
+        function showPositionData(positionJsonData) {
             let dynamicHTML = '';
             positionJsonData.forEach(position => {
                 dynamicHTML += `
@@ -235,8 +222,20 @@
             let positionSection = document.querySelector('#position-section');
             positionSection.innerHTML = dynamicHTML;
         }
+        async function getPosition() {
+            // Make a GET request to getPositionRecords endpoint
+            await fetch(apiUrl + 'getPositionRecords')
+                .then(response => response.json())
+                .then(data => {
+                    showPositionData(data);
+                })
+                .catch(error => {
+                    alert(JSON.stringify(error));
+                });
+        }
+       
 
-        showPositionData();
+        getPosition();
     </script>
 
 </body>
