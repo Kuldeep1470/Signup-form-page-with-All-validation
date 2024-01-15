@@ -204,6 +204,7 @@
 
         function showPositionData(positionJsonData) {
             let dynamicHTML = '';
+            console.log('positionJsonData',positionJsonData);
             positionJsonData.forEach(position => {
                 dynamicHTML += `
                     <div class="position-box">
@@ -222,18 +223,18 @@
             let positionSection = document.querySelector('#position-section');
             positionSection.innerHTML = dynamicHTML;
         }
-        async function getPosition() {
+        function getPosition() {
             // Make a GET request to getPositionRecords endpoint
-            await fetch(apiUrl + 'getPositionRecords')
+            fetch(apiUrl + 'getPositionRecords')
                 .then(response => response.json())
                 .then(data => {
                     showPositionData(data);
                 })
                 .catch(error => {
-                    alert(JSON.stringify(error));
+                    console.log(JSON.stringify(error));
                 });
         }
-       
+
 
         getPosition();
     </script>
