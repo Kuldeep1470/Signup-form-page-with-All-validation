@@ -4,51 +4,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Candidate Information</title>
+    <title>Salesforce rest app</title>
+
+    <style>
+        .position-section {
+            background-color: aliceblue;
+            padding: 50px 20px;
+        }
+
+        #position-section {
+            max-width: 1400px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            margin: auto;
+            gap: 10px;
+
+        }
+
+        .position-box {
+            height: auto;
+            width: 100%;
+            max-width: 350px;
+            padding: 10px 0;
+
+        }
+
+        .position-data {
+            box-shadow: 0px 10px 20px 0px #00000024;
+            border-radius: 10px;
+            text-align: center;
+            background-color: white;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 0 25px;
+        }
+
+        .position-data:hover {
+            box-shadow: 0px 12px 30px 0px #00000034;
+            transition: box-shadow 0.6s ease-in-out;
+        }
+
+        .position-name {
+            font-size: 1.28571rem;
+            font-weight: 500;
+            letter-spacing: .25px;
+            color: #0f0fbc;
+        }
+
+        p {
+            color: darkslategrey;
+        }
+
+        .apply-btn {
+            font-weight: 700;
+            letter-spacing: 1.3px;
+            -webkit-border-radius: 25px;
+            -moz-border-radius: 25px;
+            border-radius: 25px;
+            padding-top: 18px;
+            padding-right: 32px;
+            padding-bottom: 18px;
+            padding-left: 32px;
+            display: inline-block;
+            font-size: .92857rem;
+            color: #656684;
+            white-space: nowrap;
+            vertical-align: top;
+            -webkit-transition: all .2s;
+            -o-transition: all .2s;
+            -moz-transition: all .2s;
+            transition: all .2s;
+            line-height: 1;
+            text-align: center;
+            border: solid 2px #0f0fbc;
+            text-transform: uppercase;
+            text-decoration: none;
+            margin: 25px auto 35px;
+        }
+
+        a.apply-btn:hover {
+            background: #0f0fbc;
+            color: white;
+        }
+    </style>
+
 </head>
 
 <body>
-    <div>
-        <h1>Submit Candidate Information</h1>
+    <section>
 
-        <form id="candidateForm">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required><br>
+        <div>
+            <h1>Submit Candidate Information</h1>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br>
+            <form id="candidateForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required><br>
 
-            <label for="phone">Phone:</label>
-            <input type="tel" id="phone" name="phone" required><br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required><br>
 
-            <label for="currentLocation">Current Location:</label>
-            <input type="text" id="currentLocation" name="currentLocation" required><br>
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" name="phone" required><br>
 
-            <label for="currentSalary">Current Salary:</label>
-            <input type="text" id="currentSalary" name="currentSalary" required><br>
+                <label for="currentLocation">Current Location:</label>
+                <input type="text" id="currentLocation" name="currentLocation" required><br>
 
-            <label for="expectedSalary">Expected Salary:</label>
-            <input type="text" id="expectedSalary" name="expectedSalary" required><br>
+                <label for="currentSalary">Current Salary:</label>
+                <input type="text" id="currentSalary" name="currentSalary" required><br>
 
-            <label for="currentCompany">Current Company:</label>
-            <input type="text" id="currentCompany" name="currentCompany" required><br>
+                <label for="expectedSalary">Expected Salary:</label>
+                <input type="text" id="expectedSalary" name="expectedSalary" required><br>
 
-            <label for="noticePeriod">Notice Period:</label>
-            <input type="text" id="noticePeriod" name="noticePeriod" required><br>
+                <label for="currentCompany">Current Company:</label>
+                <input type="text" id="currentCompany" name="currentCompany" required><br>
 
-            <label for="positionId">Position ID:</label>
-            <input type="text" id="positionId" name="positionId" required><br>
+                <label for="noticePeriod">Notice Period:</label>
+                <input type="text" id="noticePeriod" name="noticePeriod" required><br>
 
-            <label for="file">Resume (PDF only):</label>
-            <input type="file" id="fileInput" required><br>
+                <label for="positionId">Position ID:</label>
+                <input type="text" id="positionId" name="positionId" required><br>
 
-            <button type="button" onclick="createCandidate()">Submit</button>
-        </form>
+                <label for="file">Resume (PDF only):</label>
+                <input type="file" id="fileInput" required><br>
 
-        <button onclick="getPosition()">Get Position Data</button>
+                <button type="button" onclick="createCandidate()">Submit</button>
+            </form>
 
-        <pre id="output"></pre>
-    </div>
+        </div>
+    </section>
+    <section class="position-section">
+        <div id="position-section">
+            <h3>Current no positions are opened</h3>
+        </div>
+    </section>
 
     <script>
         const siteUrl = 'https://dev1-a2-dev-ed.develop.my.site.com';
@@ -117,16 +207,36 @@
             fetch(apiUrl + 'getPositionRecords')
                 .then(response => response.json())
                 .then(data => {
-                    displayOutput('Position Data: ' + JSON.stringify(data));
+                    return data;
                 })
                 .catch(error => {
-                    displayOutput('Error occurred: ' + error.message);
+                    alert(JSON.stringify(error));
                 });
         }
+       
+        const showPositionData = () => {
+            let positionJsonData = getPosition();
+            let dynamicHTML = '';
+            positionJsonData.forEach(position => {
+                dynamicHTML += `
+                    <div class="position-box">
+                        <div class="position-data careers-zigzag__textarea">
+                            <h5 class="position-name">${position.name || ''}</h5>
+                            <p class="position-location">Location : ${position.location || ''}</p>
+                            <p class="position-Experience">Experience Required : ${position.experience || ''}</p>
+                            <a class="apply-btn" href='www.metadologie.com/${position.positionId || ''}'>
+                                <span>Apply Now</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            });
 
-        function displayOutput(data) {
-            document.getElementById('output').textContent = data;
+            let positionSection = document.querySelector('#position-section');
+            positionSection.innerHTML = dynamicHTML;
         }
+
+        showPositionData();
     </script>
 
 </body>
