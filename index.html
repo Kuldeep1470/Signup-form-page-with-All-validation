@@ -452,7 +452,7 @@
                     .then(res => {
                         let resBody = JSON.parse(res);
                         console.log('resbody', resBody);
-                        showToast(resBody.type, resBody.message, 3000);
+                        showToast(resBody['type'], resBody['message'], 3000);
 
                     })
                     .catch(error => {
