@@ -205,7 +205,7 @@
         function showPositionData(positionJsonData) {
             let dynamicHTML = '';
             console.log('positionJsonData',positionJsonData);
-            positionJsonData.forEach(position => {
+            JSON.parse(positionJsonData).forEach(position => {
                 dynamicHTML += `
                     <div class="position-box">
                         <div class="position-data careers-zigzag__textarea">
