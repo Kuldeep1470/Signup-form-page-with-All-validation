@@ -192,11 +192,11 @@
                     })
                 })
                     .then(response => response.text())
-                    .then(data => {
-                        displayOutput('Data saved successfully.');
+                    .then(rest => {
+                        console.log(res);
                     })
                     .catch(error => {
-                        displayOutput('Error occurred: ' + error.message);
+                        console.log(error);
                     });
             };
 
