@@ -450,9 +450,9 @@
                 })
                     .then(response => response.text())
                     .then(res => {
-                        let resBody = JSON.parse(res);
+                        let resBody = JSON.parse(JSON.stringify(res));
                         console.log('resbody', resBody);
-                        showToast(resBody['type'], resBody['message'], 3000);
+                        showToast(resBody[0].type, resBody[0].message, 3000);
 
                     })
                     .catch(error => {
