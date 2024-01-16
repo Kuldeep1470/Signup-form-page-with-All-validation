@@ -450,7 +450,7 @@
                 })
                     .then(response => response.text())
                     .then(res => {
-                        let resBody = JSON.parse(JSON.stringify(res));
+                        let resBody = JSON.parse(res);
                         console.log('resbody', resBody);
                         showToast(resBody[0].type, resBody[0].message, 30000);
 
