@@ -122,7 +122,14 @@
             word-wrap: break-word;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: none;
-            position: relative;
+            position: absolute;
+            top: 2%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+
         }
 
         .success {
@@ -135,9 +142,6 @@
 
         .close-btn {
             cursor: pointer;
-            position: absolute;
-            top: 5px;
-            right: 10px;
             color: #fff;
         }
     </style>
@@ -381,27 +385,11 @@
             }
         }
 
-        const handleSave = (e) => {
-            e.preventDefault();
-            let isNameOk = validateName(name);
-            let isEmailOk = validateEmail(email);
-            let isResumeOk = isFileInputNotEmpty(file);
-            let isPhoneOk = formatPhoneNumber(phone);
-            let saveBtnStatus = isNameOk && isEmailOk && isResumeOk && isPhoneOk;
-            handleButtonStatus(!saveBtnStatus);
-
-            if (!saveBtnStatus) {
-                console.log('status btn is disabled and return');
-                return;
-            }
-            let isRecordSaved = saveCandidateInformation();
-        }
-
         function showToast(message, type, duration) {
             // Create the toast element
             const toastElement = document.createElement('div');
             toastElement.className = `toast ${type}`;
-            toastElement.innerHTML = `<span>${message}</span><span class="close-btn" onclick="closeToast(this)">&times;</span>`;
+            toastElement.innerHTML = `<span>${message}</span>`;
 
             // Append the toast element to the container
             document.body.appendChild(toastElement);
@@ -420,10 +408,29 @@
             document.body.removeChild(element);
         };
 
+        const handleSave = (e) => {
+            e.preventDefault();
+             let isNameOk = validateName(name);
+              let isEmailOk = validateEmail(email);
+              let isResumeOk = isFileInputNotEmpty(file);
+              let isPhoneOk = formatPhoneNumber(phone);
+              let saveBtnStatus = isNameOk && isEmailOk && isResumeOk && isPhoneOk;
+              handleButtonStatus(!saveBtnStatus);
+  
+              if (!saveBtnStatus) {
+                  console.log('status btn is disabled and return');
+                  return;
+              }
+              let isRecordSaved = saveCandidateInformation();
+        }
+
+
+
 
         const siteUrl = 'https://dev1-a2-dev-ed.develop.my.site.com';
         const apiUrl = `${siteUrl}/services/apexrest/JobOpening/`;
         const saveCandidateInformation = () => {
+
             handleButtonStatus(true);
             let urlParams = new URLSearchParams(window.location.search);
             let positionId = urlParams.has('positionId') ? urlParams.get('positionId') : null;
@@ -455,13 +462,13 @@
                     .then(response => response.text())
                     .then(res => {
                         handleButtonStatus(false);
-                        if(res.includes('success')){
+                        if (res.includes('success')) {
                             let message = res.replace(' #success', '');
-                            showToast('success', message, 3000);
+                            showToast(message ,'success', 3000);
                         }
-                        else{
-                            showToast('error', res, 3000);
-                            
+                        else {
+                            console.log();
+                            showToast(res,'error', 3000);
                         }
 
                     })
