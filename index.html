@@ -209,10 +209,10 @@
                 dynamicHTML += `
                     <div class="position-box">
                         <div class="position-data careers-zigzag__textarea">
-                            <h5 class="position-name">${position.name || ''}</h5>
-                            <p class="position-location">Location : ${position.location || ''}</p>
-                            <p class="position-Experience">Experience Required : ${position.experience || ''}</p>
-                            <a class="apply-btn" href='www.metadologie.com/${position.positionId || ''}'>
+                            <h5 class="position-name">${position?.name || ''}</h5>
+                            <p class="position-location">Location : ${position?.location || ''}</p>
+                            <p class="position-Experience">Experience Required : ${position?.experience || ''}</p>
+                            <a class="apply-btn" href='www.metadologie.com/${position?.positionId || ''}'>
                                 <span>Apply Now</span>
                             </a>
                         </div>
