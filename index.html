@@ -31,9 +31,10 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         /* Custom CSS for additional styling */
-        input:-internal-autofill-selected{
+        input:-internal-autofill-selected {
             background-color: white;
         }
+
         .custom-container {
             max-width: 600px;
             margin: 60px auto;
@@ -81,7 +82,7 @@
             box-shadow: none;
         }
 
-        input[type=file]{
+        input[type=file] {
             padding: 0;
         }
 
@@ -171,11 +172,11 @@
                                     <div
                                         class="slds-col form-ele slds-mediam-size_1-of-2 slds-large-size_1-of-2 slds-small-size_1-of-2">
                                         <div class="slds-form-element slds-m-bottom_medium">
-                                            <label class="slds-form-element__label"  for="Email">Email <abbr
+                                            <label class="slds-form-element__label" for="Email">Email <abbr
                                                     class="slds-required" title="required">* </abbr></label>
                                             <div class="slds-form-element__control">
-                                                <input class="slds-input" id="Email" placeholder="example@gmail.com" required="true" maxLength="100"
-                                                    onkeyup="validateEmail(this)" />
+                                                <input class="slds-input" id="Email" placeholder="example@gmail.com"
+                                                    required="true" maxLength="100" onkeyup="validateEmail(this)" />
                                             </div>
                                             <label class="slds-required"></label>
                                         </div>
@@ -186,8 +187,9 @@
                                             <label class="slds-form-element__label" for="Phone">Phone <abbr
                                                     class="slds-required" title="required">* </abbr></label>
                                             <div class="slds-form-element__control">
-                                                <input class="slds-input" id="phone" required="true"  placeholder="000 000 000 0"
-                                                    onkeyup="formatPhoneNumber(this)" maxLength="15" />
+                                                <input class="slds-input" id="phone" required="true"
+                                                    placeholder="000 000 000 0" onkeyup="formatPhoneNumber(this)"
+                                                    maxLength="15" />
                                             </div>
                                             <label class="slds-required"></label>
                                         </div>
@@ -198,7 +200,8 @@
                                             <label class="slds-form-element__label" for="current-location">Current
                                                 Location</label>
                                             <div class="slds-form-element__control">
-                                                <input class="slds-input" id="current-location" maxLength="100"  placeholder="jaipur, rajasthan"/>
+                                                <input class="slds-input" id="current-location" maxLength="100"
+                                                    placeholder="jaipur, rajasthan" />
                                             </div>
                                             <label class="slds-required"></label>
 
@@ -220,7 +223,7 @@
                                     <div
                                         class="slds-col form-ele slds-mediam-size_1-of-2 slds-large-size_1-of-2 slds-small-size_1-of-2">
                                         <div class="slds-form-element slds-m-bottom_medium">
-                                            <label class="slds-form-element__label" for="current-salary" >Expected
+                                            <label class="slds-form-element__label" for="current-salary">Expected
                                                 Salary</label>
                                             <div class="slds-form-element__control">
                                                 <input class="slds-input" id="expected-salary" placeholder="29990"
@@ -233,11 +236,11 @@
                                     <div
                                         class="slds-col form-ele slds-mediam-size_1-of-2 slds-large-size_1-of-2 slds-small-size_1-of-2">
                                         <div class="slds-form-element slds-m-bottom_medium">
-                                            <label class="slds-form-element__label" for="current-company" >Current
+                                            <label class="slds-form-element__label" for="current-company">Current
                                                 Company</label>
                                             <div class="slds-form-element__control">
-                                                <input class="slds-input" label="Current Company" id="current-company" placeholder="Metadologie"
-                                                    maxLength="50" />
+                                                <input class="slds-input" label="Current Company" id="current-company"
+                                                    placeholder="Metadologie" maxLength="50" />
                                             </div>
                                         </div>
                                         <label class="slds-required"></label>
@@ -386,7 +389,7 @@
             let isPhoneOk = formatPhoneNumber(phone);
             let saveBtnStatus = isNameOk && isEmailOk && isResumeOk && isPhoneOk;
             handleButtonStatus(!saveBtnStatus);
-            
+
             if (!saveBtnStatus) {
                 console.log('status btn is disabled and return');
                 return;
@@ -412,7 +415,7 @@
             }, duration);
         }
 
-        window.closeToast = function(element) {
+        window.closeToast = function (element) {
             // Remove the toast element from the DOM
             document.body.removeChild(element);
         };
@@ -420,10 +423,11 @@
 
         const siteUrl = 'https://dev1-a2-dev-ed.develop.my.site.com';
         const apiUrl = `${siteUrl}/services/apexrest/JobOpening/`;
-        const saveCandidateInformation = () =>{
+        const saveCandidateInformation = () => {
+            handleButtonStatus(true);
             let urlParams = new URLSearchParams(window.location.search);
             let positionId = urlParams.has('positionId') ? urlParams.get('positionId') : null;
-            console.log( 'positionId',positionId);
+            console.log('positionId', positionId);
             const reader = new FileReader();
             reader.onloadend = function () {
                 const fileContent = reader.result.split(',')[1];
@@ -450,19 +454,27 @@
                 })
                     .then(response => response.text())
                     .then(res => {
-                        let resBody = JSON.parse(res);
-                        console.log('resbody', resBody);
-                        showToast(resBody[0].type, resBody[0].message, 30000);
+                        handleButtonStatus(false);
+                        if(res.includes('success')){
+                            let message = res.replace(' #success', '');
+                            showToast('success', message, 3000);
+                        }
+                        else{
+                            showToast('error', res, 3000);
+                            
+                        }
 
                     })
                     .catch(error => {
+                        handleButtonStatus(false);
+                        showToast('error', 'There are some issues please refresh the page', 3000);
                         console.log(error);
                     });
             };
 
             reader.readAsDataURL(file.files[0]);
         }
-        
+
     </script>
 </body>
 
