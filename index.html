@@ -10,6 +10,7 @@
         .position-section {
             background-color: aliceblue;
             padding: 50px 20px;
+            display: none;
         }
 
         #position-section {
@@ -136,7 +137,7 @@
     </section>
     <section class="position-section">
         <div id="position-section">
-            <h3>Current no positions are opened</h3>
+           
         </div>
     </section>
 
@@ -221,6 +222,7 @@
             });
 
             let positionSection = document.querySelector('#position-section');
+            positionSection.parentElement.style.display = 'block';
             positionSection.innerHTML = dynamicHTML;
         }
         function getPosition() {
