@@ -4,169 +4,426 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salesforce rest app</title>
-
+    <title>Candidate Information</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/design-system/2.19.0/styles/salesforce-lightning-design-system.min.css"
+        integrity="sha512-p9SCOMLK1HdDw85Sxg6PaduBc1ZYvsBXWly04TfTby25K+tNjm/oRpxbNNWDBcbbx8Ub5OfZQHHsYjzuxCcjGA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/design-system/2.19.0/styles/salesforce-lightning-design-system-imports.sanitized.min.css"
+        integrity="sha512-v6qYYBjS6WOilqFwBtxz0KQ3RQrfA8cIe3IvTVEEPVbEJ5+HEA3Bxj97GHr4VVqTMRyYyt+Sk87wIrbdaj/tIQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/design-system/2.19.0/styles/salesforce-lightning-design-system-legacy.min.css"
+        integrity="sha512-49tjht7T7xi5wakXgkWna303l1ZOTXUmwRCIp/InvLPihQJ2p+066faUNb/2uunF3VRE12G1d4trj5wxj/eNzw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/design-system/2.19.0/styles/salesforce-lightning-design-system-offline.min.css"
+        integrity="sha512-5TxFNg4oqv0EHwpbCKjh/ETVMYUx4kADhKax+tgWFC0RTmISsu3k1wdCWaUIRjO49tBXw5Q/+yHRW+VjozmtWQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/design-system/2.19.0/styles/salesforce-lightning-design-system.sanitized.min.css"
+        integrity="sha512-MqKmG7CPKEx1YahVSC3RkkQy9/h35LlwaRt574tKvtcJ3786PfsXzud5wv909ywD5RcThg3e192ea3e3o2+sQg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/design-system/2.19.0/styles/salesforce-lightning-design-system_touch.min.css"
+        integrity="sha512-9frhpdDNgb/CE+5hESvd4ZO3mKFJ9hksJBjtey3pfinA+w6Xin6n1IVZ2/dfTVkGrtlLOVCv/x9j7hWBRrLfRQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        .position-section {
-            background-color: aliceblue;
-            padding: 50px 20px;
-            display: none;
-        }
-
-        #position-section {
-            max-width: 1400px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-            margin: auto;
-            gap: 10px;
-
-        }
-
-        .position-box {
-            height: auto;
-            width: 100%;
-            max-width: 350px;
-            padding: 10px 0;
-
-        }
-
-        .position-data {
-            box-shadow: 0px 10px 20px 0px #00000024;
-            border-radius: 10px;
-            text-align: center;
+        /* Custom CSS for additional styling */
+        input:-internal-autofill-selected{
             background-color: white;
-            height: 100%;
+        }
+        .custom-container {
+            max-width: 600px;
+            margin: 60px auto;
+        }
+
+        .slds-p-around_medium {
+            padding: 1rem;
+        }
+
+        .slds-p-top_medium {
+            padding-top: 1rem;
+        }
+
+        .slds-m-bottom_medium {
+            margin-bottom: 1rem;
+        }
+
+        .custom-button {
+            color: white;
+            border: none;
+            padding: 5px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        select {
+            width: 100%;
+            padding: 5px;
+            outline: none;
+            border: 1px solid #bbbbbb;
+            border-radius: 3px;
+        }
+
+        .disabled {
+            user-select: none;
+            filter: grayscale(100%);
+        }
+
+        .slds-input:active,
+        .slds-input:focus {
+            box-shadow: none;
+        }
+
+        input[type=file]{
+            padding: 0;
+        }
+
+        input[type=file]::file-selector-button {
+            margin-right: 20px;
+            border: none;
+            background: #0176d3;
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: background .2s ease-in-out;
+        }
+
+        input[type=file]::file-selector-button:hover {
+            background: #0d45a5;
+        }
+
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             flex-direction: column;
-            padding: 0 25px;
+            align-items: center;
+            z-index: 9999;
         }
 
-        .position-data:hover {
-            box-shadow: 0px 12px 30px 0px #00000034;
-            transition: box-shadow 0.6s ease-in-out;
+        .toast {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            max-width: 300px;
+            word-wrap: break-word;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            position: relative;
         }
 
-        .position-name {
-            font-size: 1.28571rem;
-            font-weight: 500;
-            letter-spacing: .25px;
-            color: #0f0fbc;
+        .success {
+            background-color: #28a745;
         }
 
-        p {
-            color: darkslategrey;
+        .error {
+            background-color: #dc3545;
         }
 
-        .apply-btn {
-            font-weight: 700;
-            letter-spacing: 1.3px;
-            -webkit-border-radius: 25px;
-            -moz-border-radius: 25px;
-            border-radius: 25px;
-            padding-top: 18px;
-            padding-right: 32px;
-            padding-bottom: 18px;
-            padding-left: 32px;
-            display: inline-block;
-            font-size: .92857rem;
-            color: #656684;
-            white-space: nowrap;
-            vertical-align: top;
-            -webkit-transition: all .2s;
-            -o-transition: all .2s;
-            -moz-transition: all .2s;
-            transition: all .2s;
-            line-height: 1;
-            text-align: center;
-            border: solid 2px #0f0fbc;
-            text-transform: uppercase;
-            text-decoration: none;
-            margin: 25px auto 35px;
-        }
-
-        a.apply-btn:hover {
-            background: #0f0fbc;
-            color: white;
+        .close-btn {
+            cursor: pointer;
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            color: #fff;
         }
     </style>
-
 </head>
 
 <body>
-    <section>
+    <main>
 
-        <div>
-            <h1>Submit Candidate Information</h1>
+        <div class="custom-container">
+            <form enctype="multipart/form-data">
 
-            <form id="candidateForm">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required><br>
+                <div class="slds-box slds-theme_default slds-p-around_medium">
+                    <h2 class="slds-text-heading_medium slds-m-bottom_medium slds-text-align_center">Candidate
+                        Information</h2>
 
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required><br>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col">
+                            <div class="slds-form slds-form_stacked">
+                                <div class="slds-grid slds-wrap">
+                                    <div
+                                        class="slds-col form-ele slds-mediam-size_1-of-2 slds-large-size_1-of-2 slds-small-size_1-of-2">
+                                        <div class="slds-form-element slds-m-bottom_medium">
+                                            <label class="slds-form-element__label" for="name">Name <abbr
+                                                    class="slds-required" title="required">* </abbr></label>
+                                            <div class="slds-form-element__control">
+                                                <input class="slds-input name" placeholder="Jhon Dew" id="name"
+                                                    onkeyup="validateName(this)" required="true" maxLength="100" />
+                                            </div>
+                                            <label class="slds-required"></label>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="slds-col form-ele slds-mediam-size_1-of-2 slds-large-size_1-of-2 slds-small-size_1-of-2">
+                                        <div class="slds-form-element slds-m-bottom_medium">
+                                            <label class="slds-form-element__label"  for="Email">Email <abbr
+                                                    class="slds-required" title="required">* </abbr></label>
+                                            <div class="slds-form-element__control">
+                                                <input class="slds-input" id="Email" placeholder="example@gmail.com" required="true" maxLength="100"
+                                                    onkeyup="validateEmail(this)" />
+                                            </div>
+                                            <label class="slds-required"></label>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="slds-col form-ele slds-mediam-size_1-of-2 slds-large-size_1-of-2 slds-small-size_1-of-2">
+                                        <div class="slds-form-element slds-m-bottom_medium">
+                                            <label class="slds-form-element__label" for="Phone">Phone <abbr
+                                                    class="slds-required" title="required">* </abbr></label>
+                                            <div class="slds-form-element__control">
+                                                <input class="slds-input" id="phone" required="true"  placeholder="000 000 000 0"
+                                                    onkeyup="formatPhoneNumber(this)" maxLength="15" />
+                                            </div>
+                                            <label class="slds-required"></label>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="slds-col form-ele slds-mediam-size_1-of-2 slds-large-size_1-of-2 slds-small-size_1-of-2">
+                                        <div class="slds-form-element slds-m-bottom_medium">
+                                            <label class="slds-form-element__label" for="current-location">Current
+                                                Location</label>
+                                            <div class="slds-form-element__control">
+                                                <input class="slds-input" id="current-location" maxLength="100"  placeholder="jaipur, rajasthan"/>
+                                            </div>
+                                            <label class="slds-required"></label>
 
-                <label for="phone">Phone:</label>
-                <input type="tel" id="phone" name="phone" required><br>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="slds-col form-ele slds-mediam-size_1-of-2 slds-large-size_1-of-2 slds-small-size_1-of-2">
+                                        <div class="slds-form-element slds-m-bottom_medium">
+                                            <label class="slds-form-element__label" for="current-salary">Current
+                                                Salary</label>
+                                            <div class="slds-form-element__control">
+                                                <input class="slds-input" id="current-salary" placeholder="29990"
+                                                    onkeyup="onlyNumeric(this)" maxLength="10" />
+                                            </div>
+                                            <label class="slds-required"></label>
 
-                <label for="currentLocation">Current Location:</label>
-                <input type="text" id="currentLocation" name="currentLocation" required><br>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="slds-col form-ele slds-mediam-size_1-of-2 slds-large-size_1-of-2 slds-small-size_1-of-2">
+                                        <div class="slds-form-element slds-m-bottom_medium">
+                                            <label class="slds-form-element__label" for="current-salary" >Expected
+                                                Salary</label>
+                                            <div class="slds-form-element__control">
+                                                <input class="slds-input" id="expected-salary" placeholder="29990"
+                                                    onkeyup="onlyNumeric(this)" maxLength="10" />
+                                            </div>
+                                            <label class="slds-required"></label>
 
-                <label for="currentSalary">Current Salary:</label>
-                <input type="text" id="currentSalary" name="currentSalary" required><br>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="slds-col form-ele slds-mediam-size_1-of-2 slds-large-size_1-of-2 slds-small-size_1-of-2">
+                                        <div class="slds-form-element slds-m-bottom_medium">
+                                            <label class="slds-form-element__label" for="current-company" >Current
+                                                Company</label>
+                                            <div class="slds-form-element__control">
+                                                <input class="slds-input" label="Current Company" id="current-company" placeholder="Metadologie"
+                                                    maxLength="50" />
+                                            </div>
+                                        </div>
+                                        <label class="slds-required"></label>
 
-                <label for="expectedSalary">Expected Salary:</label>
-                <input type="text" id="expectedSalary" name="expectedSalary" required><br>
+                                    </div>
+                                    <div
+                                        class="slds-col form-ele slds-mediam-size_1-of-2 slds-large-size_1-of-2 slds-small-size_1-of-2">
+                                        <div class="slds-form-element slds-m-bottom_medium">
+                                            <label class="slds-form-element__label" for="notice-period">Notice
+                                                Period</label>
+                                            <div class="slds-form-element__control">
+                                                <input class="slds-input" label="Notice Period" placeholder="60"
+                                                    onkeyup="onlyNumeric(this)" id="notice-period" maxLength="2" />
+                                            </div>
+                                        </div>
+                                        <label class="slds-required"></label>
 
-                <label for="currentCompany">Current Company:</label>
-                <input type="text" id="currentCompany" name="currentCompany" required><br>
+                                    </div>
 
-                <label for="noticePeriod">Notice Period:</label>
-                <input type="text" id="noticePeriod" name="noticePeriod" required><br>
+                                    <div
+                                        class="slds-col form-ele slds-mediam-size_1-of-2 slds-large-size_1-of-2 slds-small-size_1-of-2">
+                                        <div class="resume">
+                                            <label class="slds-form-element__label" for="Resume">Resume <abbr
+                                                    class="slds-required" title="required">* </abbr></label>
+                                            <input class="slds-input" style="border: none;" type="file" id="resume"
+                                                onchange="isFileInputNotEmpty(this)" required="true" multiple="false" />
+                                            <label class="slds-required"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-m-top_medium slds-m-top_medium slds-grid slds-grid_align-center "
+                                    id="saveForm">
+                                    <button class="slds-button slds-button_brand custom-button" id="save-btn"
+                                        onmouseleave="handleButtonStatus(false)" onclick="handleSave(event)"
+                                        type="submit">Save</button>
+                                </div>
+                            </div>
+                        </div>
 
-                <label for="positionId">Position ID:</label>
-                <input type="text" id="positionId" name="positionId" required><br>
+                    </div>
 
-                <label for="file">Resume (PDF only):</label>
-                <input type="file" id="fileInput" required><br>
-
-                <button type="button" onclick="createCandidate()">Submit</button>
+                </div>
             </form>
+        </div>
+    </main>
 
-        </div>
-    </section>
-    <section class="position-section">
-        <div id="position-section">
-           
-        </div>
-    </section>
 
     <script>
-        const siteUrl = 'https://dev1-a2-dev-ed.develop.my.site.com';
-        const apiUrl = `${siteUrl}/services/apexrest/JobOpening/`;
 
-        function createCandidate() {
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const currentLocation = document.getElementById('currentLocation').value;
-            const currentSalary = document.getElementById('currentSalary').value;
-            const expectedSalary = document.getElementById('expectedSalary').value;
-            const currentCompany = document.getElementById('currentCompany').value;
-            const noticePeriod = document.getElementById('noticePeriod').value;
-            const positionId = document.getElementById('positionId').value;
+        const name = document.querySelector('#name');
+        const phone = document.querySelector('#phone');
+        const email = document.querySelector('#Email');
+        const currentLocation = document.querySelector('#current-location');
+        const currentSalary = document.querySelector('#current-salary');
+        const expectedSalary = document.querySelector('#expected-salary');
+        const currentCompany = document.querySelector('#current-company');
+        const noticePeriod = document.querySelector('#notice-period');
+        const file = document.querySelector('#resume');
+        const saveBtn = document.querySelector('#save-btn');
 
-            // Get the file input element
-            const fileInput = document.getElementById('fileInput');
-            const file = fileInput.files[0];
+        const handleButtonStatus = (status) => {
+            saveBtn.disabled = status;
+        }
 
-            // Check if a file is selected
-            if (!file) {
-                alert('Please select a file.');
+        const validateName = (input) => {
+            let inputVal = input.value;
+            let errorLabel = input.parentElement.parentElement.lastElementChild;
+            if (inputVal == '') {
+                errorLabel.innerText = 'Enter your name';
+            }
+            else {
+                errorLabel.innerText = '';
+            }
+            return (input.value.trim() != '' && errorLabel.innerText == '');
+        }
+
+        const formatPhoneNumber = (input) => {
+
+            let inputValue = input.value;
+
+            // Remove non-numeric characters
+            var cleanedString = inputValue.replace(/[^0-9]/g, '');
+
+            // Format the phone number with spaces after every three digits
+            var formattedNumber = cleanedString.replace(/(\d{3})(?=\d)/g, '$1 ');
+
+            // Update the input value with the formatted number
+            input.value = formattedNumber;
+
+            // Check if the phone number is empty or less than 10 digits and display an error
+            var errorLabel = input.parentElement.parentElement.lastElementChild;
+            if (cleanedString.length < 10) {
+                errorLabel.innerText = 'Please enter phone number (at least 10 digits)';
+            } else {
+                errorLabel.innerText = ''; // Clear the error message
+            }
+            return (input.value.trim() != '' && errorLabel.innerText == '');
+        };
+
+        const onlyNumeric = (input) => {
+            let inputValue = input.value;
+            input.value = inputValue.replace(/\D/g, '');
+        }
+
+        const validateEmail = (input) => {
+
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            var email = "test@example.com";
+            let errorLabel = input.parentElement.parentElement.lastElementChild;
+            if (emailRegex.test(input.value)) {
+                errorLabel.innerText = "";
+            } else {
+                errorLabel.innerText = "Enter a valid email address";
+            }
+            return (input.value.trim() != '' && errorLabel.innerText == '');
+        }
+
+        const isFileInputNotEmpty = (input) => {
+            var files = input.files;
+            let errorLabel = input.parentElement.lastElementChild;
+
+            if (files.length > 0) {
+                if (!files[0].type.includes('pdf')) {
+                    errorLabel.innerText = 'Only PDF files are allowed';
+                    return false;
+                }
+
+                if (files[0].size > 4 * 1024 * 1024) {
+                    errorLabel.innerText = 'File size exceeds the limit (4MB)';
+                    return false;
+                } else {
+                    errorLabel.innerText = '';
+                    return true;
+                }
+            } else {
+                errorLabel.innerText = 'Provide your resume';
+                return false;
+            }
+        }
+
+        const handleSave = (e) => {
+            e.preventDefault();
+            let isNameOk = validateName(name);
+            let isEmailOk = validateEmail(email);
+            let isResumeOk = isFileInputNotEmpty(file);
+            let isPhoneOk = formatPhoneNumber(phone);
+            let saveBtnStatus = isNameOk && isEmailOk && isResumeOk && isPhoneOk;
+            handleButtonStatus(!saveBtnStatus);
+            
+            if (!saveBtnStatus) {
+                console.log('status btn is disabled and return');
                 return;
             }
+            let isRecordSaved = saveCandidateInformation();
+        }
 
-            // Read the file content as Base64
+        function showToast(message, type, duration) {
+            // Create the toast element
+            const toastElement = document.createElement('div');
+            toastElement.className = `toast ${type}`;
+            toastElement.innerHTML = `<span>${message}</span><span class="close-btn" onclick="closeToast(this)">&times;</span>`;
+
+            // Append the toast element to the container
+            document.body.appendChild(toastElement);
+
+            // Show the toast
+            toastElement.style.display = 'flex';
+
+            // Automatically remove the toast after the specified duration
+            setTimeout(() => {
+                closeToast(toastElement);
+            }, duration);
+        }
+
+        window.closeToast = function(element) {
+            // Remove the toast element from the DOM
+            document.body.removeChild(element);
+        };
+
+
+        const siteUrl = 'https://dev1-a2-dev-ed.develop.my.site.com';
+        const apiUrl = `${siteUrl}/services/apexrest/JobOpening/`;
+        const saveCandidateInformation = () =>{
+            let urlParams = new URLSearchParams(window.location.search);
+            let positionId = urlParams.has('positionId') ? urlParams.get('positionId') : null;
+            console.log( 'positionId',positionId);
             const reader = new FileReader();
             reader.onloadend = function () {
                 const fileContent = reader.result.split(',')[1];
@@ -178,69 +435,36 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        name: name,
-                        email: email,
-                        phone: phone,
-                        currentLocation: currentLocation,
-                        currentSalary: currentSalary,
-                        expectedSalary: expectedSalary,
-                        currentCompany: currentCompany,
-                        noticePeriod: noticePeriod,
+                        name: name.value,
+                        email: email.value,
+                        phone: phone.value,
+                        currentLocation: currentLocation.value,
+                        currentSalary: currentSalary.value,
+                        expectedSalary: expectedSalary.value,
+                        currentCompany: currentCompany.value,
+                        noticePeriod: noticePeriod.value,
                         positionId: positionId,
                         fileContent: fileContent,
-                        fileName: file.name
+                        fileName: file.files[0].name
                     })
                 })
                     .then(response => response.text())
                     .then(res => {
                         console.log(res);
+                        if(res.includes('su')){
+
+                        }
+
                     })
                     .catch(error => {
                         console.log(error);
                     });
             };
 
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(file.files[0]);
         }
-
-        function showPositionData(positionJsonData) {
-            let dynamicHTML = '';
-            console.log('positionJsonData',positionJsonData);
-            JSON.parse(positionJsonData).forEach(position => {
-                dynamicHTML += `
-                    <div class="position-box">
-                        <div class="position-data careers-zigzag__textarea">
-                            <h5 class="position-name">${position?.name || ''}</h5>
-                            <p class="position-location">Location : ${position?.location || ''}</p>
-                            <p class="position-Experience">Experience Required : ${position?.experience || ''}</p>
-                            <a class="apply-btn" href='www.metadologie.com/${position?.positionId || ''}'>
-                                <span>Apply Now</span>
-                            </a>
-                        </div>
-                    </div>
-                `;
-            });
-
-            let positionSection = document.querySelector('#position-section');
-            positionSection.parentElement.style.display = 'block';
-            positionSection.innerHTML = dynamicHTML;
-        }
-        function getPosition() {
-            // Make a GET request to getPositionRecords endpoint
-            fetch(apiUrl + 'getPositionRecords')
-                .then(response => response.json())
-                .then(data => {
-                    showPositionData(data);
-                })
-                .catch(error => {
-                    console.log(JSON.stringify(error));
-                });
-        }
-
-
-        getPosition();
+        
     </script>
-
 </body>
 
 </html>
